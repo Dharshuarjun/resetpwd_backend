@@ -4,6 +4,7 @@ const mongoose=require("mongoose");
 app.use(express.json());
 const cors=require("cors");
 app.use(cors());
+const dotenv=require("dotenv").config();
 const bcrypt=require("bcryptjs");
 app.set("view engine","ejs");
 app.use(express.urlencoded({extended:false}));
@@ -11,7 +12,7 @@ app.use(express.urlencoded({extended:false}));
 const jwt=require("jsonwebtoken");
 var nodemailer = require('nodemailer');
 const JWT_SECRET ="hfgfjfbvhhfhffkff()jdfhjhjyuyeyehjdgckikfjkghg"
-const mongoUrl="mongodb+srv://user:user1234@cluster0.koohjh0.mongodb.net/?retryWrites=true&w=majority"
+const mongoUrl=process.env.DB;
 
 mongoose.connect(mongoUrl,{
     useNewUrlParser:true,
@@ -84,9 +85,7 @@ app.post("/userData",async(req,res)=>{
         
     }
 });
-app.listen(5000,()=>{
-    console.log("Server Started");
-})
+
 
 app.post("/forgot-password",async(req,res)=>{
     const {email}=req.body;
@@ -178,5 +177,8 @@ app.post("/reset-password/:id/:token",async(req,res)=>{
         status:"Something went wrong"
        }) ;
     }
+})
+app.listen(5000,()=>{
+    console.log("Server Started");
 })
 
